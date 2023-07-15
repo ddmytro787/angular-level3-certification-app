@@ -3,12 +3,16 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {QuizMakerComponent} from './quiz-maker/quiz-maker.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { QuestionComponent } from './question/question.component';
 import { AnswersComponent } from './answers/answers.component';
+import { LoaderComponent } from './loader/loader.component';
+import { LoaderRollerComponent } from './loader/loader-roller/loader-roller.component';
+import { LoaderInterceptor } from './loader/loader.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -16,7 +20,9 @@ import { AnswersComponent } from './answers/answers.component';
     QuizMakerComponent,
     QuizComponent,
     QuestionComponent,
-    AnswersComponent
+    AnswersComponent,
+    LoaderComponent,
+    LoaderRollerComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +30,13 @@ import { AnswersComponent } from './answers/answers.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

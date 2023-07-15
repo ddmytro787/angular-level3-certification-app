@@ -1,0 +1,8 @@
+<ng-container *ngIf="messages$ | async as messages">
+  <div class="loader" *ngIf="messages.length">
+    <app-loader-roller></app-loader-roller>
+    <div class="messages">
+      <p *ngFor="let message of messages">{{message}}</p>
+    </div>
+  </div>
+</ng-container>
