@@ -1,17 +1,17 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
 import {QuizMakerComponent} from './quiz-maker/quiz-maker.component';
-import { QuizComponent } from './quiz/quiz.component';
-import { QuestionComponent } from './question/question.component';
-import { AnswersComponent } from './answers/answers.component';
-import { LoaderComponent } from './loader/loader.component';
-import { LoaderRollerComponent } from './loader/loader-roller/loader-roller.component';
-import { LoaderInterceptor } from './loader/loader.interceptor';
+import {QuizComponent} from './quiz/quiz.component';
+import {QuestionComponent} from './question/question.component';
+import {AnswersComponent} from './answers/answers.component';
+import {LoaderComponent} from './loader/loader.component';
+import {LoaderRollerComponent} from './loader/loader-roller/loader-roller.component';
+import {LoaderInterceptor} from './loader/loader.interceptor';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { LoaderInterceptor } from './loader/loader.interceptor';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {

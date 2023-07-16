@@ -56,4 +56,50 @@ export class QuizService {
   getLatestResults(): Results {
     return this.latestResults;
   }
+
+  generateListOfUniqueCategories(categories: Category[]) {
+    const listOfUniqueCategoryNames: string[] = [];
+    const listOfUniqueCategories: Category[] = [];
+    let subCategoryDetectorIndex: number;
+    let categoryName: string;
+    let category: Category;
+
+    categories.forEach(_category => {
+      subCategoryDetectorIndex = _category.name.indexOf(':');
+      category = _category;
+      categoryName = _category.name;
+
+      if(subCategoryDetectorIndex >= 0) {
+        categoryName = categoryName.slice(0, subCategoryDetectorIndex);
+        category = { id: categoryName, name: categoryName };
+      }
+
+      if(!listOfUniqueCategoryNames.includes(categoryName)) {
+        listOfUniqueCategoryNames.push(categoryName);
+        listOfUniqueCategories.push(category);
+      }
+    });
+
+    return listOfUniqueCategories;
+  }
+
+  generateListOfSubCategories(categories: Category[]) {
+    const subCategoriesMap = new Map<string, Category[]>;
+    let subCategoryDetectorIndex: number;
+    let categoryName: string;
+    let subCategoryName: string;
+    let subCategoriesMapValue: Category[];
+
+    categories.forEach(category => {
+      subCategoryDetectorIndex = category.name.indexOf(':');
+      if(subCategoryDetectorIndex < 0) return;
+
+      subCategoryName = category.name.slice(subCategoryDetectorIndex + 1, category.name.length).trim();
+      categoryName = category.name.slice(0, subCategoryDetectorIndex);
+      subCategoriesMapValue = subCategoriesMap.get(categoryName) || [];
+      subCategoriesMap.set(categoryName, [...subCategoriesMapValue, { id: category.id, name: subCategoryName }]);
+    });
+
+    return subCategoriesMap;
+  }
 }
