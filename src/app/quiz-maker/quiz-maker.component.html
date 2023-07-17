@@ -1,19 +1,17 @@
 <div class="row">
   <div class="col-sm-11">
     <form [formGroup]="form">
-      <select formControlName="category">
-        <option value="">Select category</option>
-        <option [value]="category.id" *ngFor="let category of categories$ | async">
-          {{category.name}}
-        </option>
-      </select>
+      <app-autocomplete
+        placeholder="Select category"
+        [control]="categoryControl"
+        [itemsList]="categories$ | async">
+      </app-autocomplete>
       <ng-container *ngIf="subCategories$ | async as subCategories">
-        <select formControlName="subCategory">
-          <option value="">Select sub-category</option>
-          <option [value]="subCategory.id" *ngFor="let subCategory of subCategories">
-            {{subCategory.name}}
-          </option>
-        </select>
+        <app-autocomplete
+          placeholder="Select sub-category"
+          [control]="subCategoryControl"
+          [itemsList]="subCategories">
+        </app-autocomplete>
       </ng-container>
       <select formControlName="difficulty">
         <option value="">Select difficulty</option>
@@ -24,7 +22,6 @@
       <button class="primary" (click)="createQuiz()" [disabled]="form.invalid">Create</button>
     </form>
   </div>
-
 </div>
 <div class="row">
    <app-quiz [questions]="questions$ | async" ></app-quiz>

@@ -1,0 +1,17 @@
+<input
+  [id]="inputElId"
+  class="autocomplete-input"
+  type="text"
+  [placeholder]="placeholder"
+  (focusin)="isInputElFocused = true"
+  (keyup)="onChange($event)"
+  #inputEl>
+
+<ul *ngIf="isInputElFocused" class="autocomplete-list">
+  <li
+    *ngFor="let item of itemsListWithEmptyOption"
+    class="autocomplete-list-item"
+    (click)="onSelect($event, item)">
+    {{item.name}}
+  </li>
+</ul>

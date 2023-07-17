@@ -1,0 +1,34 @@
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.autocomplete-input {
+  outline: none;
+}
+
+.autocomplete-list {
+  display: block;
+  position: absolute;
+  top: calc(100% - .5rem / 2);
+  left: 0;
+  right: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 calc(.5rem / 2);
+  background-color: white;
+  border-radius: 2px;
+  border: 2px solid #1976d2;
+}
+
+.autocomplete-list-item {
+  cursor: pointer;
+  padding: 3px 10px;
+  font-size: 14px;
+  transition: color .1s ease, background-color .1s ease;
+}
+
+.autocomplete-list-item:hover {
+  color: white;
+  background-color: #1976d2;
+}

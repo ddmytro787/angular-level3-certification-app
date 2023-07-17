@@ -1,5 +1,5 @@
 export interface Category {
-  id: number | string;
+  id: string;
   name: string;
 }
 
@@ -27,3 +27,5 @@ export interface Results {
 
 
 export type Difficulty = "Easy" | "Medium" | "Hard";
+
+export interface AutocompleteItem extends Pick<Category, 'id' | 'name'> {}

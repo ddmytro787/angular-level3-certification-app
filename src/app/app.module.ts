@@ -12,6 +12,7 @@ import {AnswersComponent} from './answers/answers.component';
 import {LoaderComponent} from './loader/loader.component';
 import {LoaderRollerComponent} from './loader/loader-roller/loader-roller.component';
 import {LoaderInterceptor} from './loader/loader.interceptor';
+import {AutocompleteComponent} from './autocomplete/autocomplete.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {LoaderInterceptor} from './loader/loader.interceptor';
     QuestionComponent,
     AnswersComponent,
     LoaderComponent,
-    LoaderRollerComponent
+    LoaderRollerComponent,
+    AutocompleteComponent,
   ],
   imports: [
     BrowserModule,
