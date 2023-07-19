@@ -14,8 +14,9 @@ import {LoaderRollerComponent} from './loader/loader-roller/loader-roller.compon
 import {LoaderInterceptor} from './loader/loader.interceptor';
 import {AutocompleteComponent} from './autocomplete/autocomplete.component';
 import {NotifierComponent} from './notifier/notifier.component';
-import { NotifierInterceptor } from './notifier/notifier.interceptor';
-import { EventMessagePipe } from './notifier/event-message.pipe';
+import {NotifierInterceptor} from './notifier/notifier.interceptor';
+import {EventMessagePipe} from './notifier/event-message.pipe';
+import {FilterByPipe} from './autocomplete/filter-by.pipe';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { EventMessagePipe } from './notifier/event-message.pipe';
     AutocompleteComponent,
     NotifierComponent,
     EventMessagePipe,
+    FilterByPipe,
   ],
   imports: [
     BrowserModule,

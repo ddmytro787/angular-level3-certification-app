@@ -9,7 +9,7 @@
 
 <ul *ngIf="isInputElFocused" class="autocomplete-list">
   <li
-    *ngFor="let item of itemsListWithEmptyOption"
+    *ngFor="let item of itemsListWithEmptyOption | filterBy:inputEl.value"
     class="autocomplete-list-item"
     (click)="onSelect($event, item)">
     {{item.name}}
