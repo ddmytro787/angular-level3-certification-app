@@ -1,0 +1,6 @@
+<div class="notifier">
+  <p *ngIf="event$ | async as event" class="event error">
+    <span>{{event | eventMessage}}</span>
+    <button class="small" (click)="onRemoveMessage()">clear</button>
+  </p>
+</div>

@@ -13,6 +13,9 @@ import {LoaderComponent} from './loader/loader.component';
 import {LoaderRollerComponent} from './loader/loader-roller/loader-roller.component';
 import {LoaderInterceptor} from './loader/loader.interceptor';
 import {AutocompleteComponent} from './autocomplete/autocomplete.component';
+import {NotifierComponent} from './notifier/notifier.component';
+import { NotifierInterceptor } from './notifier/notifier.interceptor';
+import { EventMessagePipe } from './notifier/event-message.pipe';
 
 
 @NgModule({
@@ -25,6 +28,8 @@ import {AutocompleteComponent} from './autocomplete/autocomplete.component';
     LoaderComponent,
     LoaderRollerComponent,
     AutocompleteComponent,
+    NotifierComponent,
+    EventMessagePipe,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +41,11 @@ import {AutocompleteComponent} from './autocomplete/autocomplete.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoaderInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NotifierInterceptor,
       multi: true,
     }
   ],
