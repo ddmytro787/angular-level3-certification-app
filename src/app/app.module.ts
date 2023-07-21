@@ -17,6 +17,7 @@ import {NotifierComponent} from './notifier/notifier.component';
 import {NotifierInterceptor} from './notifier/notifier.interceptor';
 import {EventMessagePipe} from './notifier/event-message.pipe';
 import {FilterByPipe} from './autocomplete/filter-by.pipe';
+import {MatchHighlighterDirective} from './autocomplete/match-highlighter.directive';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {FilterByPipe} from './autocomplete/filter-by.pipe';
     NotifierComponent,
     EventMessagePipe,
     FilterByPipe,
+    MatchHighlighterDirective,
   ],
   imports: [
     BrowserModule,
