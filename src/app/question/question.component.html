@@ -5,5 +5,9 @@
           *ngFor="let answer of question.all_answers"
           [innerHTML]="answer">
   </button>
-  <button (click)="swap.emit()">Change Question</button>
+  <button
+    *ngIf="!userAnswer"
+    (click)="swap.emit()">
+    Change Question
+  </button>
 </div>
