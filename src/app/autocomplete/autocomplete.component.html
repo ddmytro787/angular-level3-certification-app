@@ -12,7 +12,7 @@
     *ngFor="let item of itemsListWithEmptyOption | filterBy:inputEl.value"
     class="autocomplete-list-item"
     [matchHighlighter]="{ value: item.name, input: inputEl.value }"
-    (click)="onSelect($event, item)">
+    (click)="onSelect(item)">
     {{item.name}}
   </li>
 </ul>

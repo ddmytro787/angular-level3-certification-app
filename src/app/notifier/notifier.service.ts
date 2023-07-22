@@ -12,14 +12,14 @@ export class NotifierService {
 
   addNotifierEvent(res: HttpResponse<{ response_code: number; }>) {
     const resCode = res.body?.response_code || 0;
-    this._setNotifierEvents(resCode);
+    this._setNotifierEvent(resCode);
   }
 
   removeEvent() {
-    this._setNotifierEvents(0);
+    this._setNotifierEvent(0);
   }
 
-  private _setNotifierEvents(eventCode: number) {
+  private _setNotifierEvent(eventCode: number) {
     this._event$.next(eventCode);
   }
 }

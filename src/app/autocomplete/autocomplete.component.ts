@@ -34,7 +34,7 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._listenToResetControlStateAndClearInput();
+    this._listenToResetControlStateToClearInput();
   }
 
   ngOnDestroy() {
@@ -51,8 +51,7 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
     this.control?.setValue(item?.id || this._inputElValue);
   }
 
-  onSelect(event: MouseEvent, item: AutocompleteItem) {
-    event.stopPropagation();
+  onSelect(item: AutocompleteItem) {
     this._inputElValue = item.name;
     this.inputElRef.nativeElement.value = this._inputElValue;
     this.control?.setValue(item.id);
@@ -74,7 +73,7 @@ export class AutocompleteComponent implements OnInit, OnDestroy {
     return this.itemsList?.find(item => this._compareStringValues(item.name, value));
   }
 
-  private _listenToResetControlStateAndClearInput() {
+  private _listenToResetControlStateToClearInput() {
     this._subscription.add(
       this.control?.valueChanges.subscribe(val => {
         if(val) return;

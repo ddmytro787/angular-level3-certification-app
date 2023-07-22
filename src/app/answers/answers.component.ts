@@ -31,10 +31,6 @@ export class AnswersComponent implements OnChanges {
 
   onCreateQuiz() {
     this.quiz.clearQuestions();
-    this._redirectToMainView();
-  }
-
-  private _redirectToMainView() {
     this.router.navigateByUrl('/');
   }
 
