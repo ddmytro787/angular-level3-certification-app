@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Question } from '../data.models';
+import { QuizService } from '../quiz.service';
 
 @Component({
   selector: 'app-question',
@@ -15,6 +16,21 @@ export class QuestionComponent {
   @Input()
   userAnswer?: string;
 
+  @Output()
+  change = new EventEmitter<string>();
+
+  @Output()
+  swap = new EventEmitter();
+
+  currentSelection!: string;
+
+  constructor(private quiz: QuizService) {
+  }
+
+  get isChangeQuestionAllowed() {
+    return !!this.quiz.attemptsToChangeQuestion;
+  }
+
   getButtonClass(answer: string): string {
     if (! this.userAnswer) {
         if (this.currentSelection == answer)
@@ -27,14 +43,6 @@ export class QuestionComponent {
     }
     return "primary";
   }
-
-  @Output()
-  change = new EventEmitter<string>();
-
-  @Output()
-  swap = new EventEmitter();
-
-  currentSelection!: string;
 
   buttonClicked(answer: string): void {
     this.currentSelection = answer;

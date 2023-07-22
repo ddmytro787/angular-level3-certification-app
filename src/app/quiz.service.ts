@@ -15,11 +15,13 @@ import {
 export class QuizService {
   private _questions$ = new ReplaySubject<Question[]>(1);
   questions$ = this._questions$.asObservable();
+  attemptsToChangeQuestion!: number;
 
   private API_URL = "https://opentdb.com/";
   private latestResults!: Results;
 
   constructor(private http: HttpClient) {
+    this._setAttemptsToChangeQuestion();
   }
 
   getAllCategories(): Observable<Category[]> {
@@ -43,8 +45,10 @@ export class QuizService {
         const randomPickIndex = Math.floor(Math.random() * newQuestions.length);
         const questionToAdd = newQuestions[randomPickIndex];
         const questionToReplaceIndex = questions.findIndex(q => q.question === questionId);
-        if(questionToReplaceIndex >= 0)
+        if(questionToReplaceIndex >= 0) {
           questions.splice(questionToReplaceIndex, 1, questionToAdd);
+          this.attemptsToChangeQuestion--;
+        }
         return questions;
       }),
       tap(questions => this._questions$.next(questions)),
@@ -112,6 +116,7 @@ export class QuizService {
 
   clearQuestions() {
     this._questions$.next([]);
+    this._setAttemptsToChangeQuestion();
   }
 
   private _loadQuiz(categoryId: string, difficulty: Difficulty, state: string) {
@@ -128,5 +133,9 @@ export class QuizService {
           return quiz;
         }),
       );
+  }
+
+  private _setAttemptsToChangeQuestion() {
+    this.attemptsToChangeQuestion = 1;
   }
 }

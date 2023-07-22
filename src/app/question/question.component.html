@@ -6,7 +6,7 @@
           [innerHTML]="answer">
   </button>
   <button
-    *ngIf="!userAnswer"
+    *ngIf="!userAnswer && isChangeQuestionAllowed"
     (click)="swap.emit()">
     Change Question
   </button>
