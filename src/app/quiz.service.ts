@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { combineLatestWith, map, Observable, ReplaySubject, tap } from 'rxjs';
 import {
   ApiQuestion,
   Category,
@@ -13,6 +13,8 @@ import {
   providedIn: 'root'
 })
 export class QuizService {
+  private _questions$ = new ReplaySubject<Question[]>(1);
+  questions$ = this._questions$.asObservable();
 
   private API_URL = "https://opentdb.com/";
   private latestResults!: Results;
@@ -29,19 +31,24 @@ export class QuizService {
   }
 
   createQuiz(categoryId: string, difficulty: Difficulty): Observable<Question[]> {
-    return this.http.get<{ results: ApiQuestion[] }>(
-        `${this.API_URL}/api.php?amount=5&category=${categoryId}&difficulty=${difficulty.toLowerCase()}&type=multiple`,
-      {
-        headers: { 'loader-message': 'Creating quiz...' },
-      })
-      .pipe(
-        map(res => {
-          const quiz: Question[] = res.results.map(q => (
-            {...q, all_answers: [...q.incorrect_answers, q.correct_answer].sort(() => (Math.random() > 0.5) ? 1 : -1)}
-          ));
-          return quiz;
-        })
-      );
+    return this._loadQuiz(categoryId, difficulty, 'Creating quiz...').pipe(
+      tap(questions => this._questions$.next(questions)),
+    );
+  }
+
+  swapOneQuestionInQuiz(categoryId: string, difficulty: Difficulty, questionId: string) {
+    return this._loadQuiz(categoryId, difficulty, 'Changing quiz question...').pipe(
+      combineLatestWith(this.questions$),
+      map(([newQuestions, questions]) => {
+        const randomPickIndex = Math.floor(Math.random() * newQuestions.length);
+        const questionToAdd = newQuestions[randomPickIndex];
+        const questionToReplaceIndex = questions.findIndex(q => q.question === questionId);
+        if(questionToReplaceIndex >= 0)
+          questions.splice(questionToReplaceIndex, 1, questionToAdd);
+        return questions;
+      }),
+      tap(questions => this._questions$.next(questions)),
+    );
   }
 
   computeScore(questions: Question[], answers: string[]): void {
@@ -101,5 +108,21 @@ export class QuizService {
     });
 
     return subCategoriesMap;
+  }
+
+  private _loadQuiz(categoryId: string, difficulty: Difficulty, state: string) {
+    return this.http.get<{ results: ApiQuestion[] }>(
+      `${this.API_URL}/api.php?amount=5&category=${categoryId}&difficulty=${difficulty.toLowerCase()}&type=multiple`,
+      {
+        headers: { 'loader-message': state },
+      })
+      .pipe(
+        map(res => {
+          const quiz: Question[] = res.results.map(q => (
+            {...q, all_answers: [...q.incorrect_answers, q.correct_answer].sort(() => (Math.random() > 0.5) ? 1 : -1)}
+          ));
+          return quiz;
+        }),
+      );
   }
 }

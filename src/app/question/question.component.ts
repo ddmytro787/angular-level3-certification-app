@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
-import {Question} from '../data.models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Question } from '../data.models';
 
 @Component({
   selector: 'app-question',
@@ -30,6 +30,9 @@ export class QuestionComponent {
 
   @Output()
   change = new EventEmitter<string>();
+
+  @Output()
+  swap = new EventEmitter();
 
   currentSelection!: string;
 

@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Category, Difficulty, Question} from '../data.models';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Category, Difficulty, Question } from '../data.models';
 import {
   combineLatestWith,
   map,
@@ -8,8 +8,8 @@ import {
   Subscription,
   tap,
 } from 'rxjs';
-import {QuizService} from '../quiz.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { QuizService } from '../quiz.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-quiz-maker',
@@ -29,7 +29,7 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
   private _subCategories$ = new ReplaySubject<Map<string, Category[]>>(1);
   categories$ = this._categories$.asObservable();
   subCategories$!: Observable<Category[] | undefined>;
-  questions$!: Observable<Question[]>;
+  questions$: Observable<Question[]> = this.quizService.questions$;
 
   private _subscriptions = new Subscription();
 
@@ -46,11 +46,13 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
   }
 
   createQuiz(): void {
-    const values = this.form.value;
-    const categoryId = values.subCategory || values.category || '';
-    const difficulty =  values.difficulty || '';
+    const { categoryId, difficulty } = this._getFormValues();
+    this._subscriptions.add(this.quizService.createQuiz(categoryId, difficulty).subscribe());
+  }
 
-    this.questions$ = this.quizService.createQuiz(categoryId, difficulty as Difficulty);
+  swapQuizQuestion(questionId: string) {
+    const { categoryId, difficulty } = this._getFormValues();
+    this._subscriptions.add(this.quizService.swapOneQuestionInQuiz(categoryId, difficulty, questionId).subscribe());
   }
 
   private _getAllCategories() {
@@ -77,5 +79,12 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
         this.subCategoryControl.updateValueAndValidity();
       }),
     );
+  }
+
+  private _getFormValues() {
+    const values = this.form.value;
+    const categoryId = values.subCategory || values.category || '';
+    const difficulty =  values.difficulty || '';
+    return { categoryId, difficulty } as { categoryId: string; difficulty: Difficulty };
   }
 }
