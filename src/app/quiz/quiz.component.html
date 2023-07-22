@@ -1,9 +1,18 @@
-<app-question *ngFor="let q of questions; index as i" [question]="q"
-              (change)="userAnswers[i] = $event"
-              (swap)="swapQuestion.emit(q.question)">
+<app-question
+  *ngFor="let q of questions; index as i" [question]="q"
+  (change)="onChangeQuestion(i, $event)"
+  (swap)="onSwapQuestion(i, q.question)">
 </app-question>
-<div>
-  <button class="inverse large" *ngIf="userAnswers.length == 5" (click)="submit()">
+<div *ngIf="isQuestions">
+  <button
+    class="inverse large"
+    [disabled]="amountOfRequiredAnswers"
+    (click)="submit()">
     Submit
   </button>
+  <div
+    *ngIf="amountOfRequiredAnswers"
+    class="required-message">
+      Answers Required ({{ amountOfRequiredAnswers }})
+  </div>
 </div>
