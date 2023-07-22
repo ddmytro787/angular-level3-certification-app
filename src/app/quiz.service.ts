@@ -110,6 +110,10 @@ export class QuizService {
     return subCategoriesMap;
   }
 
+  clearQuestions() {
+    this._questions$.next([]);
+  }
+
   private _loadQuiz(categoryId: string, difficulty: Difficulty, state: string) {
     return this.http.get<{ results: ApiQuestion[] }>(
       `${this.API_URL}/api.php?amount=5&category=${categoryId}&difficulty=${difficulty.toLowerCase()}&type=multiple`,
